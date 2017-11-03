@@ -1,0 +1,17 @@
+
+1.在范围中去数(1-10)
+	例子:左右两个键(左减1，右加1)
+        UIEventListener.Get(mType_Btns[0]).onClick = (GameObject go) => { OnType(-1); };
+        UIEventListener.Get(mType_Btns[1]).onClick = (GameObject go) => { OnType(1); };
+        OnType(0);
+	
+
+    private void OnType(int dir)
+    {
+        int min = (int)SocietyType.Open;
+        int max = (int)SocietyType.Self;
+        int temp = (int)mInfo.societyType;
+        temp = temp + dir < min ? max :
+            temp + dir > max ? min : temp + dir;
+
+    }

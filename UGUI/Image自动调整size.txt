@@ -1,0 +1,3 @@
+
+
+bgList[i].SetNativeSize();这个函数就会自动调整Image的size

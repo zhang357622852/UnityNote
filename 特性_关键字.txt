@@ -1,0 +1,6 @@
+
+1.[RequireComponent(typeof(UIPanel))] :如果此脚本的gameobject没有UIPanel组件的话，会自动挂载
+	使用:在类的开头
+		[RequireComponent(typeof(UIPanel))]
+		public class UIBaseComponent : MonoBehaviour { }
+

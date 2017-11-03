@@ -1,0 +1,34 @@
+
+1.直接监听
+	写一个脚本，重载函数OnClick,添加到widget部件上就可以了
+	void OnClick()
+	{
+	    
+	}
+
+2.使用SendMessage
+	给按钮添加这个组件,NGUI->Interation->Button Message
+
+	Target：接收按钮消息的游戏对象。
+	Function Name：接收按钮消息的方法，拥有这个方法的脚本必须绑定在上面Target对象身上。
+	Trigger：触发的事件，OnClick显然是一次点击。
+	Include Children ：是否让该对象的所有子对象也发送这个点击事件。	
+
+3.使用UIListener 这个好像cocos的做法
+	给按钮添加这个组件,NGUI->Internal->Event Listener
+	
+	在任何一个脚本或者类中使用:
+	void Awake () 
+	{	
+                //获取需要监听的按钮对象
+		GameObject button = GameObject.Find("UI Root (2D)/Camera/Anchor/Panel/LoadUI/MainCommon/Button");
+                //设置这个按钮的监听，指向本类的ButtonClick方法中。
+		UIEventListener.Get(button).onClick = ButtonClick;
+	}
+ 
+        //计算按钮的点击事件
+	void ButtonClick(GameObject button)
+	{
+		Debug.Log("GameObject " + button.name);
+ 
+	}

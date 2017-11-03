@@ -1,0 +1,5 @@
+
+
+1.用Tween Scale(默认未激活)和UI Player Tween 
+
+2.Button 和 Button Scale 这个方法的原理也是方法1，所以说还是推荐使用方法一，添加的脚本也少，算是一种优化吗？

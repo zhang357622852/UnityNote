@@ -1,0 +1,8 @@
+
+目前对UI做一些移动，缩放，旋转，透明度变化等等，插值动画主要有以下方法:
+
+	1.工具包括：NGUI的Tweening目录(UI插件需要使用Ngui才可以吧)
+	2.6大tween插件：iTween, HOTween, DOTween(HOTween v2),GoKit Tween Library, DFTweenLite, LeanTween
+		LeanTween性能是最好的,第二是DoTween，但是DoTween代码可读性比LeanTween好,貌似用DoTween的人多
+	3.使用Unity的Animation:
+		缺点:灵活性差(如果策划需要修改动画，还要去改animation,麻烦,还不如代码写的tween动画好)

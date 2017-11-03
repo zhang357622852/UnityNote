@@ -1,0 +1,6 @@
+
+1.报错:FileNotFoundException: Could not load file or assembly 'UnityEngine.Advertisements, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+	解决办法: 1.退出Unity 
+		  2.删除ProjectSetting/UnityConnectSettings.asset 
+		  3.删除Library文件夹 
+		  4.开始unity,开始UnityAds广告

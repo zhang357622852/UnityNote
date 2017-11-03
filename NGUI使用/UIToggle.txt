@@ -1,0 +1,38 @@
+
+这个组件可以制作tab标签
+
+有两种方式监听这个UIToggle事件
+
+需要添加两个脚本: 1.UIToggle 2.UIToggled Objects(这个主要用来显示toggle激活和不激活状态下显示哪些对象)
+
+1.普通的点击事件
+	UIEventListener.Get(tab1).onClick = OnTab
+	这个需要一个标记变量，来区别点击了哪个tab,
+
+2.监听UIToggle状态变化: 推荐使用这个，无需维护标记变量
+	EventDelegate.Add(mW_Tog.onChange, OnPatient);
+
+    private void OnPatient()
+    {
+	if (curTab = TabType.NONE_TAB)
+		return;
+	
+        if (mPatientTog.value)
+        {
+
+        }
+    }
+
+注意:使用第二种有个要注意的,就是有多少个UIToggle就会在最后自动调用OnPatient多少次,一般会默认开启一个UIToggle的value值，
+需要处理下，要不然重复调用处理。处理:
+private TabType curTab = TabType.NONE_TAB;
+    private enum TabType
+    {
+        NONE_TAB = 1,
+        DRAW_RANKING,
+        INTEGRAL_REWARD,
+    }
+初始tab数据，不要依靠UIToggle的调用，手动调用，curTab初始为TabType.NONE_TAB;在监听函数里：
+	if (curTab = TabType.NONE_TAB)
+		return;
+在处理完后才赋值curTab=DRAW_RANKING,这样在自动调用OnPatient时就不会重复处理数据了

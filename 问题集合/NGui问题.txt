@@ -1,0 +1,18 @@
+
+1.Ignoring menu item NGUI because it is in no submenu!
+	Ngui版本和Unity版本问题,
+	找到NGUIMenu.cs文件，
+	替换下面代码，保存就可以了
+
+        [MenuItem("NGUI/", false, 11)]
+        static void Breaker () { }
+ 
+        [MenuItem("NGUI/Help", false, 12)]
+        static public void Help () { NGUIHelp.Show(); }
+	替换为:
+        [MenuItem("NGUI/Help", false, 120)]
+        static public void Help () { NGUIHelp.Show(); }
+
+2.UIToggle的问题
+	只要绑定了事件:EventDelegate.Add(CreateTog.onChange, TogEvent); 会自动在结束所有初始代码时调用这个ToEvent,有几个UIToggle,就调用几次
+	有一个现象就是:我手动改变UIToggle.value的值时，

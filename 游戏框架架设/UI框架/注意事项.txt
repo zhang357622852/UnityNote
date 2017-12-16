@@ -1,0 +1,1 @@
+1.如果UI框架用的NGUI的话，要注意不要去gameObject.SetActive(false)和整个界面透明，这样会是UIPanel的"顶点重建",重新生成drawcall，这也是NGUi消耗性的地方

@@ -1,0 +1,8 @@
+
+1.最简约游戏循环
+	while(true)
+	{
+		processInput(); //第一步处理上次调用到现在的任何输入
+		update(); //运行AI和物理,等等
+		render(); //绘制游戏
+	}

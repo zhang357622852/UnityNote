@@ -1,0 +1,34 @@
+
+Inspector上的Transform组件上的坐标就是localPositon
+ChildTran.localPosition是相对于父节点的坐标，如果没有父节点，上一级就是UIRoot的话，localPosition于position一样，都是世界坐标
+ChildTran.position 是世界坐标
+
+本地坐标->世界坐标:
+	parentTran.TransformPoint(Child.localPositon);
+世界坐标->本地坐标:
+
+
+【Unity3D的四种坐标系】
+
+1、World Space（世界坐标）：我们在场景中添加物体（如：Cube），他们都是以世界坐标显示在场景中的。transform.position可以获得该位置坐标。
+
+2、Screen Space（屏幕坐标）:以像素来定义的，以屏幕的左下角为（0，0）点，右上角为（Screen.width，Screen.height），Z的位置是以相机的世界单位来衡量的。注：鼠标位置坐标属于屏幕坐标，Input.mousePosition可以获得该位置坐标，手指触摸屏幕也为屏幕坐标，Input.GetTouch(0).position可以获得单个手指触摸屏幕坐标。
+
+　　Screen.width = Camera.pixelWidth
+
+　　Screen.height = Camera.pixelHeigth
+
+3、ViewPort Space（视口坐标）:视口坐标是标准的和相对于相机的。相机的左下角为（0，0）点，右上角为（1，1）点，Z的位置是以相机的世界单位来衡量的。
+
+4、绘制GUI界面的坐标系：这个坐标系与屏幕坐标系相似，不同的是该坐标系以屏幕的左上角为（0，0）点，右下角为（Screen.width，Screen.height）。
+
+【四种坐标系的转换】
+
+1、世界坐标→屏幕坐标：camera.WorldToScreenPoint(transform.position);这样可以将世界坐标转换为屏幕坐标。其中camera为场景中的camera对象。
+
+2、屏幕坐标→视口坐标：camera.ScreenToViewportPoint(Input.GetTouch(0).position);这样可以将屏幕坐标转换为视口坐标。其中camera为场景中的camera对象。
+
+3、视口坐标→屏幕坐标：camera.ViewportToScreenPoint();
+
+4、视口坐标→世界坐标：camera.ViewportToWorldPoint();
+	

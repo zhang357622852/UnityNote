@@ -1,4 +1,6 @@
 
+Unity里的特性都会用方括号来包含[]
+
 1.[RequireComponent(typeof(UIPanel))] :如果此脚本的gameobject没有UIPanel组件的话，会自动挂载
 	使用:在类的开头
 		[RequireComponent(typeof(UIPanel))]

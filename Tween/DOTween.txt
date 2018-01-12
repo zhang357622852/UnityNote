@@ -1,0 +1,86 @@
+
+插值动画
+
+1.命名空间: 
+	using DG.Tweening;
+
+2.初始化全局: 
+	DOTween.Init();
+
+3.两种使用方法:
+	1.完全通用的方法:
+		3秒从自身位置移动到Vector3(500f, 100f, 0)
+		Tween tween = DOTween.To(() => transform.localPosition, r => transform.localPosition = r, new Vector3(500f, 100f, 0), 3f);
+		
+		2秒变量number从0插值到100
+		int number = 0;
+		Tween tween = DOTween.To(() => number, x => number = x, 100, 2f);
+		
+		2秒从位置Vector2.zero插值到Vector2(300f, 500f)
+		Vector2 pos = Vector2.zero;
+		Tween tween = DOTween.To(() => pos, r => pos = r, new Vector2(300f, 500f), 2f);
+
+	2.便捷的写法:
+		3秒从自身位置移动到Vector3(300f, 500f, 0)
+		Tweener tween = transform.DOLocalMove(new Vector3(300f, 500f), 3f);
+
+4.队列Sequence: Sequence可以包含Sequence，当执行一个Sequence时会顺序执行Tweener
+	Tween tween1 = DOTween.To(() => transform.localPosition, r => transform.localPosition = r, new Vector3(500f, 100f, 0), 3f);
+	Tween tween2 = DOTween.To(() => transform.localRotation, r => transform.localRotation = r, new Vector3(0f, 0f, 180f), 3f);
+	Sequence seq = DOTween.Sequence();
+	seq.Append(tween1);
+	seq.Append(tween2);
+	seq.PlayForward();
+
+	回调:这个就可以实现完成一个tween，触发一个回调函数
+	sequence.AppendCallback(TweenCallback cb) 添加回调函数到序列末尾。(当序列前面动画播放完毕时会执行此方法)
+
+	sequence.AppeedInterval(float interval)添加一段空时间到序列末尾。(当序列前面动画播放完毕时会延迟一段时间)
+	sequenve.InsertCallback(float time,TweenCallback cb)    插入回调函数到序列指定时间。
+	sequenve.Join(Tween tween)  插入动画与序列最后一个动画(这里的最后是指最后加入序列而非序列末尾)同时播放。
+	sequenve.Prepend、sequenve.PrependCallback、sequenve.PrependInterval 和前面三个类似，这里是加入到序列开头。
+
+5.同步:
+	第一种:
+	主要是利用tween.Insert(float atPosition, Tween t) 需要值得注意的是atPosition是时间常数，而不是在sequence中的位置
+	seq.Insert(2f, tween2); //在两秒的时候启动这个tween
+
+	第二种:	同时播放两个tween
+	Tween tween1 = DOTween.To(() => transform.localPosition, r => transform.localPosition = r, new Vector3(500f, 100f, 0), 3f);
+        Tween tween2 = DOTween.To(() => transform.localRotation, r => transform.localRotation = r, new Vector3(0f, 0f, 180f), 3f);
+
+5.From():从这个到目前的
+	从目前的位置到Vector3(300f, 500f)
+	transform.DOLocalMove(new Vector3(300f, 500f), 3f).From();
+
+6.设置属性:
+	tween.Restart();//重播
+	tween.SetDelay(2f); //延迟
+	tween.SetEase(Ease.InOutQuint); //变化曲线
+	tweener.Goto():参数为float,表示动画立即进入到时间为t时候的状态。
+	tweener.Kill():立即销毁该动画。
+	tweener.Flip():动画播放中执行,动画原轨迹运动到起始点,当动画回到起始状态时动画结束。
+	tweener.SetAs():(局部操作) 参数为Tween或者TweenParams.用于设置该动画相关属性
+
+7.Tween的生命周期
+	当你创建tween时它会自动播放(除非你设置了全局的 defaultAutoPlay 行为）直到完成循环
+	当tween完成后它会自动终止(除非你设置了做全局的 defaultAutoKill 行为）,这意味着你不能再使用它。	
+	
+	注意点：如果你们要重复使用同一个tween，SetAutoKill(false)
+		当tween是autoKill=true时，动画结束时，tween.target是null的
+		当tween是autoKill=false时，动画结束时，tween.target是不空的的
+
+8.缓存(cache):
+	tween.SetAutoKill(false);
+	如果自定义了一个缓存池，tween就设置成不自动杀死，缓存起来
+
+9.回收(recycl):默认是不回收到DoTween内置的缓冲池中
+	tween.SetRecyclable(true);
+	如果打开这个，在tween杀死时，会自动存放在DoTween内置的缓冲池中，但是要注意的是虽然tween被放入缓存池中，但是tween.target已经为null了，下次再用时会自动从缓存池中取出来用
+
+10.从观察中能猜测出DoTween的运作:当创建新的Tween时，会先去内置的缓冲池中去，有的话就用，没有的话就new一个新的tween对象，在完成动画时，有两步: 第一步,看下autoKill是否是自动杀死，如果是杀死的话，tween.target=null,如果不是自动杀死，tween.target!=null，可以重复使用 第二步：看下recyclable是否可以回收到池中，如果可以放回缓存池中，不可以就销毁掉这个对象。
+
+11.问题:  tween.PlayBackwards();tween.Flip();不知道如何使用
+
+
+12.DoTween Path: 可以自定义运动轨迹

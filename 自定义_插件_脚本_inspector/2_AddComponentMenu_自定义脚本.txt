@@ -1,0 +1,6 @@
+
+1.在类的上面添加这个，会在Component菜单和Inspector栏的Add Component中看到我们自定义的脚本。
+	[AddComponentMenu("MyScript/TestScript")]
+	public class TestScript : MonoBehaviour
+	{
+	}

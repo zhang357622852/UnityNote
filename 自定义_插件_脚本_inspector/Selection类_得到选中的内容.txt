@@ -1,0 +1,7 @@
+
+1.Selection类提供了这个泛型方法，可以得到在Project窗口选中的内容,支持批量选中和单个选中
+	Transform[] list = Selection.GetFiltered<Transform>(SelectionMode.TopLevel);
+
+2.参数:SelectionModel
+	TopLevel: 顶级父节点，不去遍历子节点
+	还有其他。。可以去实验下.

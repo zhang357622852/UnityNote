@@ -1,0 +1,15 @@
+
+Unity3d编辑器: UnityEditor
+需要放在Editor文件加下，Unity会自动识别这个文件夹，而且这个文件夹的内容不被打入最终包体中，只是在编辑模式下用
+
+1.命名空间
+	using UnityEditor;
+
+2.类继承
+	public class GUIAtlasMaker : EditorWindow
+
+
+
+
+
+

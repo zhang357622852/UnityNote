@@ -1,0 +1,45 @@
+
+[AddComponentMenu("Sample/TestCode")]  //Component上会增加一个Sample/TestCode选项 选择这个选项就会将此脚本挂在您当前选择的物体身上
+[RequireComponent(typeof(Rigidbody))]  //把此行代码写在类的上方, 将脚本拖到物体上会自动添加Rigidbody组件
+public class InspectorTest : MonoBehaviour 
+{
+
+    [SerializeField]  // 加上SerializeField关键字 虽然是private,但是可以在Inspector面板上来调整数值
+    private int SerializeField;
+
+    [HideInInspector]
+    public int HideInInspector; //HideInInspector public,但是可以在Inspector面板上依然不显示 和上方相反
+
+  
+    [Range(0, 100)]    //滑动条来控制数值, 最小值0,最大值100  看自己需求调整
+    public float temp01;     //float  int都可以
+
+
+    [Tooltip("Temp02提示")]  //如果鼠标光标是在字段上，显示的说明文本
+    public string temp02;
+
+
+    [Space(20)]      // 这个是设置此变量跟的上方空间20是高度,  设置字段和字段之间的空间
+    public float temp03;
+
+
+    [Header("标题:")]   //temp04的标题会显示在上方(标题随意设置)
+    public float temp04;
+
+
+    [Multiline(3)]   // Multiline必须用于string 设置多行输入的文本字段
+    public string temp05;
+
+
+    [TextArea(2, 5)]  //设置多行输入的文本字段 可以设置的最大值和最小值的行数(高于最小行数时会自动增加行数)
+    public string temp06;
+
+
+    //这个是在脚本组件的右上角的设置按钮界面里，可以看到这个菜单项
+    [ContextMenu("TestShow")]
+    private void TestShow()
+    {
+        Debug.Log("TestShow方法执行");
+    }
+
+}

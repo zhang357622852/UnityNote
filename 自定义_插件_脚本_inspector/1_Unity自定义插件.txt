@@ -1,0 +1,45 @@
+
+Unity3d编辑器: UnityEditor
+需要放在Editor文件加下，Unity会自动识别这个文件夹，而且这个文件夹的内容不被打入最终包体中，只是在编辑模式下用
+
+1.命名空间
+	using UnityEditor;
+
+2.类继承
+	public class GUIAtlasMaker : EditorWindow
+
+3.菜单项与静态函数绑定: [MenuItem("MyTools/AtlasEditor")]
+	private static void Init()
+	{
+		//创建一个窗口
+		GUIAtlasMaker window = (GUIAtlasMaker)EditorWindow.GetWindow(typeof(GUIAtlasMaker));
+		window.minSize = new Vector2(500, 520);
+		window.titleContent = new GUIContent("UIAtlasEditor");
+	}
+
+4.反射调用的函数:
+	OnGUI(); //绘制界面元素就在这里,应该是每一帧被调用
+	OnSelectionChange(); //但你点选物品时触发
+	OnFocus /OnLostFocus，获得和失去焦点时触发 
+	OnDestroy：窗口被关闭时触发
+	OnHierarchyChange：当层级视图被改变时触发 
+	OnInspectorUpdate：当监视器面板更新时触发
+	Update： 每秒100次被触发
+
+5.制作窗口内元素:主要用到的类:GUI,GUILayout,EditorGUILayout,EditorUtility
+	GUI类是系统自带的UI生成类，可以生成各种基础元素如window，toggle，label，button等。
+	
+	GUILayout布局类，中包括了最常用的几种功能比如BeginArea，BeginHorizontal，BeginVertical，BeginScrollView以及相应的End方法，是按照自动布局的方式快捷生成界面UI的。也有Button，Label等常用控件可通过该类快速生成。
+
+	EditorGUILayout是GUILayout的补充，里面有一些更复杂的控件，如Toggle，TextField，Slider，IntField，IntPopup，EnumMaskField，TagField等。还有其他的一些自动布局方法，如BeginScrollView，BeginFadeGroup，BeginToggleGroup等。
+
+	EditorUtility则是一些编辑器实用方法，如显示工作进度的DisplayProgressBar；打开保存路径RevealInFinder；显示弹出界面DisplayPopupMenu；替换预设ReplacePrefab等实用的方法。注意SetDirty也在此类中，这个函数是告诉编辑器哪个东西被修改了，如果是序列化的数据编辑器就会将修改后的数据保存起来。
+
+6.除了以上几个编辑界面时需要用的类之外，还有一些实用的类和方法在编写自定义插件的时候也会用到：
+	Selection，这个类主要是获取目前用户的选中对象； 
+	Application，应用相关方法，可以获得各种当前状态，还可以使用logMessageReceived注册新log产生时的回调方法。 
+	GUI .GetNameOfFocusedControl () ： 获取控件是否处于焦点状态。
+
+
+
+

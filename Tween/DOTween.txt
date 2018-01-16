@@ -61,6 +61,11 @@
 	tweener.Kill():立即销毁该动画。
 	tweener.Flip():动画播放中执行,动画原轨迹运动到起始点,当动画回到起始状态时动画结束。
 	tweener.SetAs():(局部操作) 参数为Tween或者TweenParams.用于设置该动画相关属性
+	tween.SetLoops(-1, LoopType.Yoyo): -1是无限播放，
+	LoopType:
+		Restart,重播
+		Yoyo, 来回播放
+		Incremental, 增量变化，如果是变小，就一直变小
 
 7.Tween的生命周期
 	当你创建tween时它会自动播放(除非你设置了全局的 defaultAutoPlay 行为）直到完成循环

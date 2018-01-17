@@ -1,0 +1,42 @@
+
+1.用到MiniJson的解析 2.BJUtility.GetWritablePath这个函数是根据不同的平台去不同的目录 3.可以存中文
+	JsonValue resultJson = new JsonValue();
+	resultJson.Add("Author", "文明");
+	System.IO.File.WriteAllText(BJUtility.GetWritablePath("WinMi.json"), JsonUtility.ToString(resultJson),System.Text.Encoding.UTF8);
+
+2.读取
+	string text =  System.IO.File.ReadAllText(BJUtility.GetWritablePath("WinMi.json"));
+        JsonValue jv = JsonUtility.ToObjectFromJS(text);
+        jv.Get("Author").GetString();
+
+3.WinMi.json
+	{
+          "Author": "文明"
+	}
+
+4.BJUtility.GetWritablePath方法:
+    public static string GetWritablePath ( string fileName  )
+    {
+        string writePath = "";
+
+        if (Application.platform == RuntimePlatform.IPhonePlayer) 
+	{
+            
+            writePath = Application.persistentDataPath + "/"  + fileName;
+        } else if (Application.platform == RuntimePlatform.Android) 
+	{
+            
+            writePath = Application.persistentDataPath + "/"  + fileName;
+        }
+        else if (Application.platform == RuntimePlatform.WP8Player)
+        {
+
+            writePath = Application.persistentDataPath + "/" + fileName;
+        }
+        else 
+        {
+           writePath = Application.dataPath + "/../" + fileName;
+        }
+
+        return writePath;
+    }

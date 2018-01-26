@@ -43,3 +43,10 @@ public class InspectorTest : MonoBehaviour
     }
 
 }
+
+
+
+2.在类的上方[ExecuteInEditMode]实例化这个脚本，在编辑模式下会运行Unity自带的函数：Awake，Start
+	[ExecuteInEditMode]
+	public class TestScript : MonoBehaviour	
+	需要知道的是Update这个函数，不是一直在调用，毕竟是在编辑模式下，但是每次更新都被调用就是了，而其他的Awake之类的调用生命周期方式一样

@@ -1,0 +1,8 @@
+
+1.在使用Ngui做界面的时候，在UIPanel脚本下Show Draw Calls可以看到这个界面的DrawCall次数
+	1.尽量让同一个图集，或是材质球，字体资源的在同一个层级，或是depth中间不要有夹杂其他不同资源的层：
+	例如:  A物体UISprite用的是Common图集depth是1  B物体UISprite用的是EquipAtla图集depth是2  C物体UISprite用的是Common图集depth是3
+	       A物体和C物体用的是同一个Common图集，B物体的depth值是夹在1和3之间导致了DrawCall增加了1
+		调整：在界面层级合理的情况下，把B物体的depth改成不在1-3之间就可以了
+
+2.我测试下Ugui和Unity的2D精灵Sprite也会有这种情况发生。

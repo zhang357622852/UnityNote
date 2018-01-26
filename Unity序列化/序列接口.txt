@@ -1,0 +1,31 @@
+
+1.ISerializable: 继承这个接口需要编写一个特殊的构造函数，和实现接口函数GetObjectData
+	public class TestWinMi : MonoBehaviour, ISerializable
+	{
+		public int value1 = 666;
+
+		public TestWinMi(SerializationInfo info, StreamingContext context)
+    		{
+        		value1 = info.GetInt32("hehe");
+            	}
+
+              	public void GetObjectData(SerializationInfo info, StreamingContext context)
+              	{
+              		info.AddValue("hehe", value1);
+              	}
+	}
+
+
+2.ISerializationCallbackReceiver: 
+	public class TestWinMi : MonoBehaviour, 2.ISerializationCallbackReceiver
+	{
+		public void OnBeforeSerialize()
+		{
+			//这个在Unity把这个脚本序列化前会一直跑
+    		}
+
+    		public void OnAfterDeserialize()
+    		{
+			////这个在Unity把这个脚本序列化后调用
+    		}
+	}

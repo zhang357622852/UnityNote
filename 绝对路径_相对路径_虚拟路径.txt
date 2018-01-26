@@ -1,0 +1,23 @@
+
+1.绝对路径: 文件的绝对路径，全名
+	例如：
+		D:/wamp/www/img/icon.jpg
+		http://www.img.net/img/icon.jpg
+
+
+2.相对路径: 顾名思义就是自己相对与目标位置
+	例如：
+	 假设 你要引入文件的页面名称为test.htm，它存在叫www的文件夹里（绝对路径D:/wamp/www/test.htm），那么引用同时存在www文件夹里的“icon.jpg”文件（绝对路径D:/wamp/www/icon.jpg），同一目录下相对路径icon.jpg；如果文件“icon.jpg”存在img文文件夹中（绝对路径D:/wamp/www/img/icon.jpg），那么相对路径img/icon.jpg。
+
+
+3.注意：
+	相对路径使用“/”字符作为目录的分隔字符，而绝对路径可以使用“\”或“/”字符作为目录的分隔字符。由于“img”目录是“www”目录下的子目录，因此在“img”前不用再加上“/”字符。
+
+
+4.在相对路径中： "../" 表示上一级目录，如果有多个上一级目录，可以使用多个"../"
+  "./"当前目录
+ 
+
+5.虚拟路径
+	将文件上传到远程服务器后，这些文件驻留在服务器本地目录树中的某一个文件夹中。例如，在运行MicrosoftIIS的服务器上，主页的路径可能如下所示：c:\Inetpub\wwwroot\accounts\users\jsmith\index2.htm此路径通常称为文件的物理路径。但是，用来打开文件的URL并不使用物理路径。它使用服务器名称或域名，后接虚拟路径（ 这里说一下虚拟目录：虚拟目录，是对Http访问而言的,用户在浏览网站或FPT时显示的目录结构。例如你设置了E:\Website为访问目录，那么E:\Website为虚拟目录的根目录；E:\Website\Image,就变成了\Image. ）。所以接上面的例子，虚拟路径可以写成
+	<img src="/img/icon.jpg" />  

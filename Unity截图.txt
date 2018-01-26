@@ -1,0 +1,7 @@
+
+1.方法一: Application.CaptureScreenshot :路径可以用这个->Application.persistentDataPath
+	Application.CaptureScreenshot(Application.dataPath + "/../" + "TestImage.png");
+	
+	1.1: 他是异步的而且效率低,图片是在调用完CaptureScreenshot后的一帧或更久才被保存，所以使用图片前要判断一下时候保存了
+	1.2：在pc上可以给它传一个在Application.persistentDataPath下的全路径， 
+	     但在android和ios中只能给它传一个在Application.persistentDataPath下的相关路径。

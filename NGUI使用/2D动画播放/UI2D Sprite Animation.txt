@@ -1,0 +1,3 @@
+
+1.使用UI2D Sprite Animation这个脚本的话：可以有两种图片显示方式: 
+	1.Unity自带的SpriteRenderer  2.Ngui自己的UI2DSprite

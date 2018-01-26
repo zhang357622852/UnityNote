@@ -1,0 +1,2 @@
+
+UI Localize组件可以用在UISprite和UILabel中，即可以实现文本和图片的切换

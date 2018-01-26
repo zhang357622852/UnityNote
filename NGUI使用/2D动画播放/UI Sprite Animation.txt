@@ -1,0 +1,3 @@
+
+
+这个动画脚本用的是Ngui的UISprite

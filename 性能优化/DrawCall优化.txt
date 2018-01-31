@@ -5,4 +5,7 @@
 	       A物体和C物体用的是同一个Common图集，B物体的depth值是夹在1和3之间导致了DrawCall增加了1
 		调整：在界面层级合理的情况下，把B物体的depth改成不在1-3之间就可以了
 
-2.我测试下Ugui和Unity的2D精灵Sprite也会有这种情况发生。
+2.我测试到Ugui和Unity的2D精灵Sprite也会有这种情况发生。所以说不同的资源，层级不要穿穿插着，这样会增加批处理次数
+
+
+3.在Unity5.x版本 Game视图开启Stats统计，Batches代表批处理次数， SetPass calls：据说是真正的图形渲染性能好坏的依据，而Batches不算

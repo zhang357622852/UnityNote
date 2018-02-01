@@ -2,3 +2,6 @@
 1.如果UI框架用的NGUI的话，要注意不要去gameObject.SetActive(false)和整个界面透明，这样会是UIPanel的"顶点重建",重新生成drawcall，这也是NGUi消耗性的地方
 
 2.NGui中最消耗性能的函数就是:UIPanel.LateUpdate()了
+
+
+3.从测试来看，如果背包那种的界面，很多物品item的话，如果在切换页签的时候，缓存起来的item,不要gameObject.SetActive(false)或是降低透明度，还是把scale变为0;

@@ -1,5 +1,5 @@
 
-1.用到MiniJson的解析 2.BJUtility.GetWritablePath这个函数是根据不同的平台去不同的目录 3.可以存中文
+1.用到MiniJson的解析 2.BJUtility.GetWritablePath这个函数是根据不同的平台去获取不同的目录 3.可以存中文
 	JsonValue resultJson = new JsonValue();
 	resultJson.Add("Author", "文明");
 	System.IO.File.WriteAllText(BJUtility.GetWritablePath("WinMi.json"), JsonUtility.ToString(resultJson),System.Text.Encoding.UTF8);

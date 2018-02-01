@@ -1,0 +1,29 @@
+Windows系统Unity3D中的快捷键
+组合键 键 功能 
+File 文件 
+Ctrl   N New Scene 新建场景 
+Ctrl   O Open Scene 打开场景 
+Ctrl   S Save Scene 保存 
+Ctrl Shift S Save Scene as 保存场景为 
+Ctrl Shift B Build Settings... 编译设置... 
+Ctrl   B Build and run 编译并运行 
+Edit 编辑 
+Ctrl   Z Undo 撤消 
+Ctrl   Y Redo 重做 
+Ctrl   X Cut 剪切 
+Ctrl   C Copy 拷贝 
+Ctrl   V Paste 粘贴 
+Ctrl   D Duplicate 复制 
+Shift   Del Delete 删除 
+    F Frame  selected 选择的帧 
+Ctrl   F Find 查找 
+Ctrl   A Select All 全选 
+Ctrl   P Play 播放 
+Ctrl Shift P Pause 暂停 
+Ctrl Alt P Step 停止 
+Assets 资源 
+Ctrl   R Refresh 刷新 
+Game Object 游戏对象 
+Ctrl Shift N New Empty 新建空游戏对象 
+Ctrl Alt F Move to view 移动到视图 
+Ctrl Shift F Align with view 视图对齐 

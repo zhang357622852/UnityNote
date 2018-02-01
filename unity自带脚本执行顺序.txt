@@ -1,0 +1,35 @@
+
+unity脚本自带函数执行顺序如下：将下面脚本挂在任意物体运行即可得到
+
+Awake ->OnEable-> Start ->-> FixedUpdate-> Update  -> LateUpdate ->OnGUI ->OnDisable ->OnDestroy
+
+	1.Awake：用于在游戏开始之前初始化变量或游戏状态。在脚本整个生命周期内它仅被调用一次.Awake在所有对象
+	被初始化之后调用，所以你可以安全的与其他对象对话或用诸如GameObject.FindWithTag()这样的函数搜索它们。
+	每个游戏物体上的Awake以随机的顺序被调用。因此，你应该用Awake来设置脚本间的引用，并用Start来传递信息
+	Awake总是在Start之前被调用。它不能用来执行协同程序。
+
+　　2.Start：仅在Update函数第一次被调用前调用。Start在behaviour的生命周期中只被调用一次。它和Awake的不同
+	是Start只在脚本实例被启用时调用。你可以按需调整延迟初始化代码。Awake总是在Start之前执行。这允许你协调初始
+	化顺序。在所有脚本实例中，Start函数总是在Awake函数之后调用。
+	
+　　3.FixedUpdate：固定帧更新，在Unity导航菜单栏中，点击“Edit”-->“Project Setting”-->“Time”菜单项后，右侧的	
+	Inspector视图将弹出时间管理器，其中“Fixed Timestep”选项用于设置FixedUpdate()的更新频率，更新频率默认为0.02s(1/50)。
+	处理物理逻辑的时候放在这里，例如:处理刚体，给刚体添加一个力AddForce()
+
+	4.Update：正常帧更新，用于更新逻辑。每一帧都执行，跟设备的性能有关系,逻辑一般放在这里
+　　
+	5.LateUpdate：在所有Update函数调用后被调用，和fixedupdate一样都是每一帧都被调用执行，这可用于调整脚本执
+	行顺序。例如:当物体在Update里移动时，跟随物体的相机可以在LateUpdate里实现。LateUpdate,在每帧Update执行完
+	毕调用，他是在所有update结束后才调用，比较适合用于命令脚本的执行。官网上例子是摄像机的跟随，都是在所有
+	update操作完才跟进摄像机，不然就有可能出现摄像机已经推进了，但是视角里还未有角色的空帧出现/防抖动
+
+　　6.OnGUI：在渲染和处理GUI事件时调用。比如：你画一个button或label时常常用到它。这意味着OnGUI也是每帧执行一次。
+
+　　7.Reset：在用户点击检视面板的Reset按钮或者首次添加该组件时被调用。此函数只在编辑模式下被调用。Reset最常用
+	于在检视面板中给定一个默认值。
+
+　　8.OnDisable：当物体被销毁时 OnDisable将被调用，并且可用于任意清理代码。脚本被卸载时，OnDisable将被调用，
+	OnEnable在脚本被载入后调用。注意： OnDisable不能用于协同程序。
+
+　　9.OnDestroy：当MonoBehaviour将被销毁时，这个函数被调用。OnDestroy只会在预先已经被激活的游戏物体上被调用。
+	注意：OnDestroy也不能用于协同程序。

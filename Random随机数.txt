@@ -1,0 +1,4 @@
+public float value;
+value = Random.value; //产生0.0--1.0的一个数 包括最小值0.0，包括最大值1.0
+value = Random.Range(2, 5); //返回int 的指定范围数包括最小值2，不包括最大值5
+value = Random.Range(2.0f, 5.0f);//返回flaot 的指定范围数包括最小值2.0，包括最大值5.0

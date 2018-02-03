@@ -1,0 +1,16 @@
+必须在所绘制的窗口内才能触发所监听的事件
+
+1.监听拖拽事件，并且获得拖拽物品的路径,无论是Unity里物品，还是外部的都可以拖拽识别，Cool
+	示例: 拖拽一个文件夹
+	private void OnGUI()
+	{
+		if (Event.current.type == EventType.dragUpdated)
+        	{
+            		DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
+            		if (DragAndDrop.paths != null && DragAndDrop.paths.Length > 0)
+            		{
+                		path = DragAndDrop.paths[0];
+                		Debug.Log("=============drag===============" + path); //Assets/Resources/GUI
+            		}
+        	}	
+	}

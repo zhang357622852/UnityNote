@@ -1,0 +1,4 @@
+
+1.Path.GetFileNameWithoutExtension("D:/ TowerGame / Assets /../ Config / GameConfigGoto.json");
+	得到文件名:GameConfigGoto
+	Without:没有 Extension:扩展

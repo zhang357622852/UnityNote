@@ -1,0 +1,41 @@
+
+1.需要注意的是: 所添加的dll，如果是c#的.net框架的话，必须是3.5或更低版本,虽然Unity的Player设置里Api Compatibility Level:显示的是.Net2.0，Unity实际是支持3.5
+	
+
+2.例子: 添加System.Windows.Forms.dll库,
+	1.可以在Unity安装目录下找到这个dll文件，而且是3.5版本的
+	2.dll文件放在Assets/Plugins下(放在其他也是可以)
+	3.打开Vs项目(2015)，就可以再解决方案资源管理器引用那里看到System.Windows.Form被自动引用过来了
+	4.就可以在需要的文件里添加: using System.Windows.Forms; 使用了
+	5.使用:
+		5.1:浏览文件夹
+		        public static string BrowseFolder()
+        		{
+            			FolderBrowserDialog dialog = new FolderBrowserDialog();
+            			//dialog.Description = "选择Config的所在路径";
+            			//Environment.CurrentDirectory
+            			//dialog.RootFolder = Environment.SpecialFolder.Desktop;
+            			if (dialog.ShowDialog() == DialogResult.OK)
+            			{
+                			return dialog.SelectedPath;
+            			}
+
+            			return null;
+       			}
+
+		5.2:浏览文件
+		        public static string OpenFile()
+        		{
+            			OpenFileDialog oplog = new OpenFileDialog();
+            			oplog.InitialDirectory = UnityEngine.Application.dataPath + "/../";
+            			oplog.Filter = "Json(.json)|*.json"; //筛选格式: |*.json
+            			oplog.Title = "Selected File";
+            			DialogResult result = oplog.ShowDialog();
+            			if (result == DialogResult.OK)
+            			{
+                			return oplog.FileName;
+            			}
+
+            			return null;
+        		}
+

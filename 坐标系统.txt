@@ -1,12 +1,11 @@
 
 Inspector上的Transform组件上的坐标就是localPositon
-ChildTran.localPosition是相对于父节点的坐标，如果没有父节点，上一级就是UIRoot的话，localPosition于position一样，都是世界坐标
-ChildTran.position 是世界坐标
+ChildTran.localPosition是相对于父节点的坐标，如果没有父节点，上一级就是UIRoot的话，这时localPosition于position一样，都是世界坐标
 
 本地坐标->世界坐标:
 	parentTran.TransformPoint(Child.localPositon);
 世界坐标->本地坐标:
-
+	ChildTran.position ChildTran.localPosition 底层会自动转换
 
 【Unity3D的四种坐标系】
 

@@ -1,0 +1,29 @@
+
+1.首先使用此方法脚本必须继承MonoBehaviour
+
+1.1 生命周期: 随着此脚本死亡而死亡
+
+2.Invoke("方法名", 延迟时间);只触发一次
+	Invoke("Haha", 5f);
+
+3.InvokeRepeating("方法名", 第一次延迟触发时间, 触发间隔时间);
+	InvokeRepeating("Haha", 0, 2f); 
+
+4,CancelInvoke("方法名"); 取消Invoke
+	CancelInvoke("Haha");
+
+
+5.
+    private int num = 0;
+    void Start ()
+    {
+        //Invoke("Haha", 5);
+        InvokeRepeating("Haha", 0, 2f);
+    }
+
+    private void Haha()
+    {
+        num++;
+        if (num >= 5)
+            CancelInvoke("Haha");
+    }

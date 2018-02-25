@@ -1,0 +1,39 @@
+
+1.定义:unity协程是一个能暂停执行，暂停后立即返回，直到中断指令完成后继续执行的函数。
+	MonoBehaviour提供的主线程里只能有一个处于运行状态的协程
+	协程之间共享堆，不共享栈
+
+2.开启协程
+	StartCoroutine(IEnumerator routine);
+	优点：灵活，性能开销小。
+	缺点：无法单独的停止这个协程，如果需要停止这个协程只能等待协同程序运行完毕或则使用StopAllCoroutine();方法。
+
+	StartCoroutine (methodName:string, value : object = null);
+	优点：可以直接通过传入协同程序的方法名来停止这个协程：StopCoroutine(string methodName);
+	缺点：性能的开销较大，只能传递一个参数
+
+
+3.停止协同程序
+	StopCoroutine(string methodName);
+	StopAllCoroutine();
+	设置挂载的gameobject的active为false时可以终止协同程序，但是再次设置为true后协程不会再启动。
+
+
+4.注意事项:
+	同一时刻只有一个协程在运行
+	不可以在Updata和FixUpdate中使用
+	在Yield return 1 后的代码运行时，顺序是: Updata->yield return 后的代码->LateUpdate
+
+	和线程相比，在多核时，线程时真正的并行线程A和线程B，而协程没有并行的说法，是先执行完协程A再执行协程B。在单核时，线程会执行假并行，执行一下线程A然后切换到线程B，产生了多余的线程切换消耗，而协程就产生一次切换消耗
+
+	和Invoke相比，Invoke的执行顺序是: Invoke代码->Update->LateUpdate
+
+	协程里面开启协程: 执行顺序还是要依照规则来，没有谁前谁后
+		1.子协程在父协程的yield之前:
+			1.1 中断后执行的时间一样的话，yield后的代码是子协程先执行, yield前的代码还需要看子协程的位置
+			1.2 中断后执行时间不一样， 谁的时间少谁先执行
+		2.子协程在父协程yield之后:
+			yield之前代码是父协程先，yield的代码还需要看子协程与代码的位置
+	
+	在yield之前停止此协程的话，此协程yield后的代码就不会执行了
+	

@@ -2,5 +2,55 @@
 	主要包括UI事件的监听，分发，覆盖范围为此Camera渲染的所有GameObject。
 	事件源包括：鼠标，触摸，键盘，手柄。
 	事件包括：悬停，按下/抬起，选中/取消选中，点击，双击，拖拽，释放，文本输入，Tips显示，滚轮滑动，键盘输入。
-2.属性
+
+2.原理:
+	1.UICamera就是通过在触摸/鼠标移动的位置的地方发射射线（就是Unity的Raycast）
+	2.调用Raycast获取RaycastHit。
+	3.从RaycastHit中获取collider。
+	4.从collider获取碰触到的GameObject
+	5.通过SendMessage，向这个GameObject发送消息。
+	6.GameObject尝试向所有脚本调用事件处理函数，如果脚本没有相应的处理函数那么就忽略这个处理。
+
+3.属性	
+	Event Type: 
+		UI模式:基于挂件的depth,和绘制顺序一样
+		World模式:处理用户自定义的GameObject(比如从屏幕上通过拖动操作，拖拽起一个场景中的方块物体),但是GameObject不在UIRoot下面,没有Depth参数,只能通过物体的远近距离处理
+
+	Events go to：这个是NGUI 3.8新加入的选项。用于确定接受事件的是Collider还是RigidBody。对于NGUI的控件，这两者处理是没有区别的，主要区别还是在处理用户自定义的GameObject上。通过脚本注释，我们可以明白这个选项的用法，我们在Event Type中选择了World开头的选项这个Events to go才起作用哦，否则NGUI都会默认为Collider。
+		那么这个选项到底是干啥的哩？我们之前说过“要是想要触摸用户在游戏场景中建立的物体，那么请选择World开头的选项”，而如果我们要“触摸”游戏场景中的物体，在有些情况下，触摸“Collider”是没有办法满足条件的，必须触摸“刚体”才行。比如我们制作了一艘船，我们这个船是一个完整的刚体，但是船头，船身和船尾为三个子物体并分别有三个Collider，这是为了实现“当炮弹命中不同的位置，受伤情况不同”这一效果。但是这就给触摸船只造成麻烦，因为不管触摸哪个部位，都无法让整个船都接受到事件。这个时候我们如果在这个选择了RigidBody，那么处理事件的载体就变为了三个部分的根节点的那个刚体得到事件，我们就可以调用所有的事件处理函数了
+	
+	Event Mask:  决定哪个游戏对象层用于接收事件
+		大多数情况下，由于这个值和UnityEngine.Camera的CullingMask混合，你能让这个值为“Everything”，当然你也能在你想要的时候调整它。如果你改变了包含UI层级的游戏对象的Layer，请确认调整Event Mask，不然你会发现你的UI再也不能接受到事件
+
+	Debug选项: 能用于调试当前鼠标下面是什么。如果当你点击一些按钮的时候，你不知道当前和鼠标事件交互的是什么对象，只要打开这个选项，你就能在标右键点击。
+
+	Command Click：Mac电脑的鼠标没有右键但键盘上有Command按键，把按住Command并点击鼠标识别为鼠标右键点击。
+
+	Allow Multi Touch：允许多点触摸！如果开启，可以通过UICamera.currentTouchID来获取是哪个手指进行的触摸，在比如地图双指缩放等多点触摸的场景中必须开启！
+
+	Stick Tooltip选项用于调整tooltip的行为。如果关闭，tooltip将会在鼠标再次移动的时候立刻隐藏。如果打开，tooltip将保持打开，知道鼠标离开同一个对象。
+
+	Tooltip  Delay控制鼠标悬停在某个对象上而且在OnTooltip通知发送到那个对象之前的事件间隔。这个值的单位是秒。
+
+	Raycast Range控制了射线的长度，大部分情况下这个值可以无视。这个值是使用世界单位的，所以如果你摄像机的near clip是0.3而far clipping是1000，你可能发现一些很远的对象没有响应点击，不妨设置这个值为2000试试（要比你camera的摄像机的far和near平面之差更大）
+
+	Event Sources部分控制着NGUI将处理什么事件类型。如果某个选项被关闭，这些事件将不被处理。一些平台通过hood强制关闭了一些特定事件。例如控制台会自动关闭鼠标和触摸事件。
+
 	Thresholds：是指事件误差的范围，比如Mouse Click是指鼠标的按下和抬起两个事件在UI上的偏移误差不能大于10pixels，当大于10pixels时，则认为不是点击事件！
+
+	Axes and Keys部分让你选择哪个轴决定移动哪里。这些轴应该和你项目的Input Manager里面的名字匹配。
+
+4.UICamera发送下面的事件给碰撞器：
+	OnHover(isOver) 当鼠标移动到一个碰撞器或者移出一个碰撞器时触发
+	OnPress(isDown) 当鼠标按键在一个碰撞器上按下时触发
+	OnSelect(selected) 当鼠标按键在他按下的那个对象上松开时触发
+	OnClick() 和OnSelect的触发条件一样，还能通过额外检查鼠标是否还没移开。UICamera.currentTouchID告诉你按下了哪个按钮。
+	OnDoubleClick() 当在一个短时间内点击两次的时候触发。UICamera.currentTouchID告诉你点下了哪个按钮。
+	OnDragStart() 在发送OnDrag()通知之前触发
+	OnDrag(delta) 发送到正在被拖动的对象
+	OnDragOver(draggedObject) 发送给一个对象，当另一个对象被拖到它的区域时
+	OnDragOut(draggedObject) 发送给一个对象，当另一个对象被拖出它的区域时
+	OnDragEnd() 当拖动事件结束时被发送到一个dragged对象
+	OnInput(text) 当输入的时候触发（在通过点击选择一个碰撞器之后）
+	OnTooltip(show) 当鼠标滑过一个collider而且一段时间没移开的时候
+	OnKey(KeyCode key) 当按下键盘或控制器的输入

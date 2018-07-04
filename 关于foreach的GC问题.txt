@@ -1,0 +1,8 @@
+Unity 5.4.2f
+	使用foreach遍历List<>和Dictionary<int, int>会有产生40B的GC
+
+Unity 5.6.4p4 就没有这个问题了，说明在这之间的版本中升级了Mono的版本,修复了这个问题
+
+Unity 2017.3.1p4 没有这个问题
+
+需要注意StartCoroutine有的版本也会产生GC， 2017.3.1p4没有这个问题

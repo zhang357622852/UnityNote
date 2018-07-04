@@ -27,3 +27,12 @@
         if (num >= 5)
             CancelInvoke("Haha");
     }
+
+6.使用 Invoke() 方法需要注意 3点：
+
+	1 ：它应该在 脚本的生命周期里的（Start、Update、OnGUI、FixedUpdate、LateUpdate）中被调用；
+
+	2：Invoke(); 不能接受含有 参数的方法；
+
+	3：在 Time.ScaleTime = 0; 时， Invoke() 无效，因为它不会被调用到Invoke() 也支持重复调用：InvokeRepeating("SendMsg", 2 , 3); 
+           这个方法的意思是指：2 秒后调用 SendMsg() 方法，并且之后每隔 3 秒调用一次 SendMsg () 方法

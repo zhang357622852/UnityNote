@@ -1,0 +1,4 @@
+
+1.公式: from * (1f - factor) + to*factor 使用相似三角行对应边成比例
+
+	static public float Lerp (float from, float to, float factor) { return from * (1f - factor) + to * factor; }

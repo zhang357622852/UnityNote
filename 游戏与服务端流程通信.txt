@@ -1,0 +1,18 @@
+
+1.请求版本信息
+	得到版本,例如: V1.0
+	得到升级Url: https://fir.im/mayiyouxi
+	如果版本不一致，就需要从Url里下载新的内容，热更新，没有热更新的就要重新下载整个客户端
+
+2.请求服务器列表/公告内容
+
+3.是否有账号(平台账号应用宝/临时账号) 
+	没有的话就创建一个账号，服务端会返回一个loginId  
+
+4.
+
+
+
+SystemInfo.deviceUniqueIdentifier System.Guid.NewGuid().ToString().Replace("-", "")
+	
+	

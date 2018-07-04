@@ -1,0 +1,2 @@
+
+1.我们游戏的某些逻辑会在一帧内频繁调用GameObject.SetActive，显示或隐藏一些对象，数量达到一百多次之多。这类操作的CPU开销很大（尤其是NGUI的UIWidget在激活的时候会做很多初始化工作），而且会触发大量GC。后来我们改变了显示和隐藏对象的方法——让对象一直保持激活状态（activeInHierarchy为true），而原来的SetActive(false)改为将对象移到屏幕外，SetActive(true)改为将对象移回屏幕内。这样性能就好多了。

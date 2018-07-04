@@ -1,0 +1,88 @@
+
+1.平台定义:
+	UNITY_EDITOR 编辑器调用。
+
+	UNITY_STANDALONE_OSX 专门为Mac OS（包括Universal，PPC和Intelarchitectures）平台的定义。
+
+	UNITY_DASHBOARD_WIDGET Mac OS Dashboard widget (Mac OS仪表板小部件)。
+
+	UNITY_STANDALONE_WIN Windows 操作系统。
+
+	UNITY_STANDALONE_LINUX Linux的独立的应用程序。
+
+	UNITY_STANDALONE 独立的平台（Mac，Windows或Linux）。
+
+	UNITY_WEBPLAYER 网页播放器（包括Windows和Mac Web播放器可执行文件）。
+
+	UNITY_WII Wii游戏机平台。
+
+	UNITY_IPHONE iPhone平台。
+
+	UNITY_ANDROID Android平台。
+
+	UNITY_PS3 PlayStation 3。
+
+	UNITY_XBOX360 Xbox 360。
+
+	UNITY_NACL 谷歌原生客户端（使用这个必须另外使用UNITY_WEBPLAYER）。
+
+	UNITY_FLASH Adobe Flash。
+
+2.判断Unity版本
+	UNITY_2_6 平台定义为主要版本的Unity 2.6。
+
+	UNITY_2_6_1 平台定义的特定版本1的主要版本2.6。
+
+	UNITY_3_0 平台定义为主要版本的Unity 3.0。
+
+	UNITY_3_0_0 平台定义的特定版本的Unity 3.0 0。
+
+	UNITY_3_1 平台定义为主要版本的Unity 3.1。
+
+	UNITY_3_2 平台定义为主要版本的Unity 3.2。
+
+	UNITY_3_3 平台定义为主要版本的Unity 3.3。
+
+	UNITY_3_4 平台定义为主要版本的Unity 3.4。
+
+	UNITY_3_5 平台定义为主要版本的Unity 3.5。
+
+	UNITY_4_0 平台定义为主要版本的Unity 4.0。
+
+	UNITY_4_0_1 主要版本4.0.1统一的平台定义。
+
+	UNITY_4_1 平台定义为主要版本的Unity 4.1。
+
+	UNITY_4_2 平台定义为主要版本的Unity 4.2。
+
+3.获取运行平台
+	Debug.Log("plat = " + Application.platform);
+
+	//可以获取到的平台类型  
+   public enum RuntimePlatform  
+    {  
+        OSXEditor = 0,  
+        OSXPlayer = 1,  
+        WindowsPlayer = 2,  
+        OSXWebPlayer = 3,  
+        OSXDashboardPlayer = 4,  
+        WindowsWebPlayer = 5,  
+        WiiPlayer = 6,  
+        WindowsEditor = 7,  
+        IPhonePlayer = 8,  
+        PS3 = 9,  
+        XBOX360 = 10,  
+        Android = 11,  
+        NaCl = 12,  
+        LinuxPlayer = 13,  
+        FlashPlayer = 15,  
+    }
+
+4.使用宏
+    #if UNITY_EDITOR
+      Debug.Log("Unity Editor");
+    #endif
+
+    #if UNITY_IPHONE
+      Debug.Log("Iphone");
+    #endif

@@ -33,3 +33,10 @@ Awake ->OnEable-> Start ->-> FixedUpdate-> Update  -> LateUpdate ->OnGUI ->OnDis
 
 　　9.OnDestroy：当MonoBehaviour将被销毁时，这个函数被调用。OnDestroy只会在预先已经被激活的游戏物体上被调用。
 	注意：OnDestroy也不能用于协同程序。
+
+
+注意点:
+	脚本宿主GameObject如果一开始未激活的，并且在生命周期中都未激活过，那么这个脚本的Awake,OnEable, OnDestroy等等这些函数都是不会被调用
+	脚本宿主GameObject如果一开始未激活的,后面有被激活过，无论最后是否是激活状态，脚本的Awake和OnDestroy必被调用,
+	脚本的OnEable,Start,Update,OnDisable是在宿主激活过，脚本的Enable开启，才会被调用到。
+	

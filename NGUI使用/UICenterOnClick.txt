@@ -1,0 +1,5 @@
+
+在UIScrollView中:
+	1.用了这个组件，点击时，触发了OnClick，就会自动移到SV中间位置
+
+	2.也可用用pageItems[0].SendMessage("OnClick");发送这个消息，

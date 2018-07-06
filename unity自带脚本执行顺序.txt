@@ -39,4 +39,4 @@ Awake ->OnEable-> Start ->-> FixedUpdate-> Update  -> LateUpdate ->OnGUI ->OnDis
 	脚本宿主GameObject如果一开始未激活的，并且在生命周期中都未激活过，那么这个脚本的Awake,OnEable, OnDestroy等等这些函数都是不会被调用
 	脚本宿主GameObject如果一开始未激活的,后面有被激活过，无论最后是否是激活状态，脚本的Awake和OnDestroy必被调用,
 	脚本的OnEable,Start,Update,OnDisable是在宿主激活过，脚本的Enable开启，才会被调用到。
-	
+	 

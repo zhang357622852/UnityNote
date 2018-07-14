@@ -1,0 +1,26 @@
+
+1.优点感觉有三点：
+  把数据真正存储在了资源文件中，可以像其他资源那样管理它，例如退出运行也一样会保持修改
+  可以在项目之间很好的复用，不用再制作Prefab那样导入导出
+  在概念上有很好的fit，强迫症患者的福音
+
+2.为什么某些情况下使用MonoBehaviour很不好：
+  运行时刻修改了数据一退出就全部丢失了。 
+    这个深有感触，目前都是靠Copy Component Values来解决，很麻烦。其实有这样的需求的时候大部分就说明这个脚本存储的是很多数据，就应该考虑使用      ScriptableObject，而不是MonoBehaviour。说到底是因为这些对象不是Assets
+  当实例化新的对象的时候，这个MonoBehaviour也在内存中多了一份实例，浪费空间
+  在场景和项目之间很难共享
+  在概念上就很难定义这种对象，明明是为了存储一些数据和设置等，但却要作为一个Component附着在Gameobject或Prefab上，不能独立存在
+
+3.使用:
+ 	3.1:创建一个资源.asset
+	[CreateAssetMenu(menuName="MySubMenue/Create MyScriptableObject ")]
+	public class MyScriptableObject : ScriptableObject
+	{
+    		public int someVariable;
+	}
+	其中，CreateAssetMenu可以让我们在资源创建菜单中添加创建这个ScriptableObject的选项，类似创建脚本、材质等其他资源。
+
+	3.2:动态创建
+	ScriptableObject.CreateInstance<MyScriptableObject>();
+
+

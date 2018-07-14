@@ -17,7 +17,7 @@
 
 
 2.ISerializationCallbackReceiver: 
-	public class TestWinMi : MonoBehaviour, 2.ISerializationCallbackReceiver
+	public class TestWinMi : MonoBehaviour, ISerializationCallbackReceiver
 	{
 		public void OnBeforeSerialize()
 		{

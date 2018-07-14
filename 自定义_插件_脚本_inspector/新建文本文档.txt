@@ -1,0 +1,8 @@
+
+1.[CreateAssetMenu(menuName="")] 让我们在资源创建菜单中添加创建这个ScriptableObject的选项，类似创建脚本、材质等其他资源
+  
+  [CreateAssetMenu(menuName="MySubMenue/Create MyScriptableObject ")]
+  public class MyScriptableObject : ScriptableObject
+  {
+    public int someVariable;
+  }

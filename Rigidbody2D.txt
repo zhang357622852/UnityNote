@@ -1,0 +1,74 @@
+
+1.在移动或旋转一个物体时，往往会直接使用Transform来执行这些操作。比如使用如下代码来移动一个GameObject
+	this.transform.Translate (Vector3.left * speed * Time.deltaTime);
+  1.1 这种方法对于不具物理特性的GameObject来说，是可行的。但是一旦GameObject上附带有Rigidbody2D，这种方式就会带来性能的损失。
+  1.2 需要使用Rigidbody2D的方法来移动/旋转
+    private void FixedUpdate()
+    {
+        rigidbody2D.MovePosition (rigidbody2D.position + Vector2.left * speed * Time.fixedDeltaTime);
+    }
+    void Start () 
+    {
+        rigidbody2D.velocity = Vector2.left * speed;
+    }
+
+2.Body Type属性: Dynamic（动态，默认）、Kinematic（运动学）、Static（静态）
+	2.1 Dynamic: 
+	Dynamic Rigidbody2D被设计用来制作在物理模拟下会移动的物体。它会与所有类型的Rigidbody2D进行碰撞，是最常用的Rigidbody2D类型、默认的类型，同时也是最耗费性能的类型
+
+	2.2 Kinematic:
+	Kinematic Rigidbody2D被设计用来制作在物理模拟下会移动、但是仅仅在明确的用户控制下运动的物体，它不会受到重力和AddForce、AddTorque等力相关的函数的影响。
+	Kinematic Rigidbody2D被设计用来通过Rigidbody2D.MovePosition或Rigidbody2D.MoveRotation来进行重定位。
+	对于Kinematic Rigidbody2D，velocity属性对它依旧有效，只不过施加力和重力都不会对velocity造成影响。
+	Kinematic Rigidbody2D仅仅只会与Dynamic的Rigidbody2D发生碰撞（在不勾选Use Full Kinematic Contacts的情况下），它在碰撞行为上类似于Static Rigidbody2D，可以理解为具有无限质量、无法被撼动（不能通过力或碰撞改变速度，但是可以设置其速度和位置、旋转）的刚体。
+	
+	2.3 Static:
+	Static Rigidbody2D被设计用来制作在物理模拟下不会移动的物体。它在表现上可以理解为一个具有无限质量、不可移动的物体。此时velocity、AddForce、gravity、MovePosition、MoveRotation都是不可用的。
+	Static Rigidbody2D仅仅会与Dynamic Rigidbody2D发生碰撞。两个Static Rigidbody2D之间也不会发生碰撞，因为他们本来就被设计成不可移动的。
+
+
+3.Simulated属性: 设置为true（勾选）时开启模拟；设置为false（不勾选）时关闭模拟
+	模拟包括：
+		运动
+		Collider2D的碰撞
+		Joint2D的约束效果
+		是否驻留在内存
+	更改此属性在内存和处理上，都比直接启用/禁用Collider2D组件和Joint2D组件更有效率
+
+4.Use Full Kinematic Contacts
+	如果想要Kinematic Rigidbody2D与所有类型的Rigidbody2D发生碰撞，可以勾选此选项。勾选上后，它在碰撞上类似于Dynamic Rigidbody2D，但是不会受到力的影响。当此属性被设置为false（不勾选）时，该Kinematic Rigidbody2D只会与Dynamic Rigidbody2D发生碰撞；它不会与其他的Kinematic Rigidbody2D或Static Rigidbody2D（设置为trigger时除外）发生碰撞。所以此时脚本上的碰撞检测函数（OnCollisionEnter2D，OnCollisionStay2D，OnCollisionExit2D）不会被触发。所以一般情况下，如果想要制作一个完全由用户控
+
+5.Interpolate 插值  Interpolate 内插值（基于上一帧的变换来平滑本帧变换）  Extrapolate 外插值（基于下一帧的预估变换来平滑本帧变换。）
+	表示的是该物体运动的插值模式，默认状态下是被禁用的。选择该模式时，在此模式下物理引擎会在物体的运动帧之间进行插值，使得运动更加自然。另外插值导致了物理模拟和渲染的不同步，进而产生物体轻微抖动现象，建议可以对主要角色使用插值，而其他的则禁用此功能，以达到折中的效果。
+
+6.Collision Detection：碰撞检测模式。用于避免高速物体穿过其他物体，却未触发碰撞。
+	默认状态时Discrete。在没有发生碰撞检测的情况下，碰撞物体会穿过对方，产生所谓 穿透现象。碰撞模式有不连续模式（Discrete），连续模式（Continuous）和动态连续模式（ContinuousDynamic），动态连续模式适用于高速运动的物体，连续模式仅仅可以用于球体，胶囊和盒子碰撞者的刚体，而且会严重影响物体的运动表现，因此大部分采用不连续模式。
+
+7.Constraints 约束： 
+	Freeze Rotation冻结旋转   
+		刚体在世界中沿所选的X,Y,Z轴的旋转，将无效。
+	Freeze Position 冻结位置
+		刚体在世界中沿所选X，Y，Z轴的移动，将无效。
+
+8.Sleeping Mode: 1.Never Sleep(绝不睡眠) 2.Start Awake(保持清醒) 3.Start Asleep(睡着)
+	当刚体空闲时，如一个掉到地板上的盒子，他们就会开始休眠。休眠是性能优化的一个策略，即物理引擎不会处理那些处于休眠中的刚体。这样一来，只要某刚体在正常情况下不移动，那么你可以在你的场景中添加大量的该刚体。
+
+总结：
+	1、在操作附加了Rigidbody2D的物体时，不要直接通过操作Transform来移动、旋转它。
+
+	2、要接受碰撞的Rigidbody2D必须添加Collider2D组件。
+
+	3、如果一个Rigidbody2D需要移动，但不接受力的作用，那么需要将它设置成Kinematic；如果它附加了Collider2D组件，在Rigidbody的Use Full Kinematic Contacts属性为false（不勾选）时，它只会与Dynamic的Rigidbody2D碰撞，而不会与Kinematic的或者Static的Rigidbody2D发生碰撞；如果需要它能与受所有类型的Rigidbody2D碰撞，那就设置Use Full Kinematic Contacts为true（勾选）。
+
+	4、如果一个Rigidbody2D需要移动，并且接受完全的物理模拟，包括重力、碰撞、施加力等，那么需要将Rigidbody2D设置成Dynamic，并附加Collider2D组件。
+
+	5、如果一个Rigidbody2D不需要移动，也不需要接收力的作用，但是需要接受碰撞，那么需要将Rigidbody2D设置为Static，并附加Collider2D组件。
+
+	6、在运行中不要修改Rigidbody2D的Body Type属性。
+
+7、在运行中，如果想要停止/启用对一个Rigidbody2D进行物理模拟，那么将这个Rigidbody2D的Simulate属性设置为false/true会比关闭/打开它的Collider2D、Joint2D组件效率高。
+
+
+
+
+	

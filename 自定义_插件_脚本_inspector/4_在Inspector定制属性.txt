@@ -34,6 +34,8 @@ public class InspectorTest : MonoBehaviour
     [TextArea(2, 5)]  //设置多行输入的文本字段 可以设置的最大值和最小值的行数(高于最小行数时会自动增加行数)
     public string temp06;
 
+    [Information("这是一个注释", InformationAttribute.InformationType.Info, false)]
+
 
     //这个是在脚本组件的右上角的设置按钮界面里，可以看到这个菜单项
     [ContextMenu("TestShow")]

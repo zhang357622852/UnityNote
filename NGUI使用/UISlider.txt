@@ -1,0 +1,10 @@
+1.如果需要添加拖动点Thumb的话，需要加上BoxCollider,才可以拖动
+
+2.监听变化的值: 在脚本中添加一个public函数，把预制体拖到OnValueChange中，然后在Method选中方法
+  public void OnReelSlider()
+    
+  {
+        
+    LogMgr.Trace("==============" + mReelSlider.value);
+    
+  }

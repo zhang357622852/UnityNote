@@ -1,1 +1,5 @@
 1.在安卓平台下，没有实时阴影，要在PC平台下
+
+2.MissingMethodException: The best match for method OnSelect has some invalid parameter
+	原来是使用了OnSelect,这个函数名不可以使用，改个名字就可以了
+		UIEventListener.Get(gameObject).onClick = OnSelect;

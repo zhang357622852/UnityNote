@@ -1,0 +1,64 @@
+1.客户端月卡显示问题 由于沟通问题导致appstore的商品id被删了，各方确认苹果的商品id变换必须重审，想增加id发现客户端id被写死了。最终只能减少一个id换成月卡了。所以客户端要动态。
+ 
+2.NGUI移动效率低下问题，动态移动的Sprite会导致每帧的NGUI排序 效率很低，所以主城的玩家头上的icon和text都必须用 render和3dtext来做。所以NGUI只适合做静态UI.
+ 
+3.iOS资源解压路径问题，由于前期项目忙的问题。打算审核的时候把资源存在temp目录，上线后存在document目录，结果变成了都存temp目录了。导致玩家每隔几天就得重新下载资源，因为temp和cache目录系统都会自动清空。所以不得不临时加急更新版本。
+ 
+4 关于策划上的OKMSgBox和TipsBox的区别，之前问有些策划他们觉得好像没什么区别，最近操作的感受是 频繁的操作提示和不重要的建议tips 方便玩家操作，不频繁的 并且比较重要的提示一定要msgbox提示，确保玩家看到内容。
+ 
+5关于文件更新，文件更新经常遇到缓存问题更新不下来，比如配置表bundinfo.tx  很多CDN会优化 如果名字一样的情况下  第二次不会重新下载 会读缓存，所以最好是每次文件改变后 都要改后缀名，_1 等，文件名CRC后缀校验会变等。另外测试更新的时候 时间上要求比较蛋疼，名字相同的资源 刚放在服务器上 下不下来，等一段时间也许就下下来了。
+ 
+6关于Android代码dll更新，首先电脑连接Android手机看资源管理器的时候  看Android的资源是很有延迟的，一般以手机或者助手来看目录为准。另外就是DLl更新要重启，还有就是apk包内的dll和更新下载的dll  在Java层面要判断好 以哪个为准，比如一般以下载的为准，但是遇到新装apk后  就要把下载的删掉 以本地为准了。
+ 
+7关于Android代码热更新的坑：由于我们采用的是将代码序列化的，所以在大版本更新 只想更新dll的情况下，必须保证代码序列化的各public成员变量不变，也就是：
+ 
+      a.原来的代码不能增加public变量，也不能把public变量属性改变 ,public 变量用函数去获取。
+ 
+      b.若改变的变量特别多，就建议把原代码删掉增加一个_1的代码，比如test.cs 变成test_1.cs。但是这种情况要保证代码的meta文件的guid不变，也就是直接把原代码的meta改成_1.meta。因为guid变了后  会被认为是全新的东西，那么所有bundle相关该代码的资源都会有变化，会导致更新文件过多。另外还要保证改成_1.CS的原代码和对象没有被直接public赋值过。不然引用对象也有可能导致资源变化。
+ 
+      c.代码修改完毕后 一定要重打所有与这些代码相关的资源。
+ 
+8 客户端计算服务器时间变量类型遇到的坑：服务器的时间 客户端最初用了 Uint64类型来计算的，然后发现计算错误 改为了ulong  发现也错误，其实这2者之间差不多，主要还是因为计算产生了负数，导致UINT64的负数变成了很大的正数  而出错了。所以其实客户端正常逻辑 用int64或long应该就是足够了的。单纯从数值区间来说int64和long是一样的。
+ 
+9 关于客户端的itemDB,客户端经常需要获取总物品里边的部分分类和排序处理，如果每次获取或者排序的时候都new一个新对象来返回，频繁时 会导致客户端内存在短时间内爆满。所以一般在获取的接口地方定义该类型变量，每次获取或者排序的时候 clear掉 然后再计算返回，这样才不会导致内存冗余。
+ 
+10 关于bundle模式下读文件有问题 pc模式文件正确。装备模型在pc里边正常 在手机上加载不进来是因为资源的图片和模型或者材质同名，bundle里边不会区分后缀名的，所以加载了错误的文件而失败。解决方法是把所有类型的文件加后缀 不重名，也可以加载的时候按typeof（）来加载资源。
+ 
+10.2 关于重命名模型贴图和材质，贴图名可以随意改，但是材质名是根据模型的Material Naming字段生成，比如By Texture name,但是这里边的Texture name 不是Unity里边看到的贴图名 而是美术导出工程的时候的贴图名，不规范的美术常会把模型贴图材质名都默认成一样的，所以Material Naming可以选模型名+材质名，然后Reimport 这个资源 材质就会自动生成。
+ 
+11.设置sprite 图片设不进去，被这个问题坑死了 设了a进去 无论如何还是原来的样子 没有任何地方修改。到最后发现是由于父层的UIButton的Normal状态，导致没有修改成功。所以这种情况最好就是2边的SpriteName都重设一遍。
+ 
+12.关于分辨率和GPU越好的手机 性能越差 耗电越大问题，很有可能是Quality Setting设置成了自动  那么Shader Resolution会被自动设置为高分辨率 就会很卡，解决方法是全部设为Fastest 模式、
+ 
+13 关于美术上传了文件 ，程序再从SVN 下载下来 贴图老是不对的问题，以前没法解决都是美术过来手动再解决一遍。最近发现很有可能是SVN的上传不完整导致的，直接进行Commit的时候有些文件比如.a文件 或者有些材质文件 SVN是不会主动add并且上传的，所以美术的机器上看起来好像都上传了，其实进到每个底层目录 发现有些材质文件 可能没有add上传的。
+ 
+14.C#里边遇到使用if(false){   } 然后导致报错的：Location of symbol related to previous warning。可能可能被编译器优化了。别这么写就好了。
+ 
+15.Mprotect remapping failed  该报错是指底层内存分配异常，导致的原因的频繁的销毁和创建大量对象。解决方案是分布操作，比如第一帧销毁 等2帧再创建 结合协成来操作就行了。
+ 
+16.关于Shader的问题，以前采用bundle模式，资源之间有依赖关系 不在shaderlib库里的shader也会被打包。采用新文件系统后  不在shaderlib或$符号下的不会被打包，但是美术又大量采用了比如系统自带的一些ParticleShader。解决办法：1Project Setting GraphicsSetting里边 可以定义Always Inculde Shader，就可以包含系统Shader了。2.可以在login场景定义一个全局对象 引用该Shader，打包也会自动打入。3.把shader放在Resource目录或者挂在prefab上 放Resource目录。
+ 
+17.关于材质的渲染队列 Custom Render Que，如果材质的Que有值不为-1，则以材质的队列来进行渲染，修改shader是没用的；如果Que=-1 才是用Shader的渲染队列进行渲染。
+ 
+18.文件系统的描述文件 10000多行，采用StringBuilder代替String后 速度快了27倍。三者在执行速度方面的比较：StringBuilder >  StringBuffer  >  String   。对于三者使用的总结： 1.如果要操作少量的数据用 = String  2.单线程操作字符串缓冲区 下操作大量数据 = StringBuilder  3.多线程操作字符串缓冲区 下操作大量数据 = StringBuffer、
+ 
+19.关于bigfile的使用，安卓里边StreamingAsset目录属于压缩类型 加载较慢，在一些load速度要求较高的资源必须拷贝到Persistent目录进行加载。ios里边速度一样，但是如果ios存的是rar压缩的文件 也建议解压到Persistent目录进行加载。bigfile就是人工定义哪些文件加载频繁或影响速度。
+ 
+20.关于美术修改特效prefab 贴图重新指定上传prefab后 svn上update下来发现特效并没有修改成功，原因是特效的贴图信息是存在材质上的，所以修改prefab的贴图指定后不能单纯上传prefab 还需要上传材质文件，才能保证别人更新svn后特效正常显示。
+ 
+21.关于Plane向量和距离的说明Plane p=new Plane(po1,po2,po3);   Plane q=new Plane(po3,po2,po1);由上得到的2个平面法向量p.normal相反，由我们中学学的左手定则决定的，根据穿进去的三个点的方向，顺时针向内，逆时针向外。unity里边平面的表示是由法向量和他的偏移量决定的，也就是p.normal and p.distance偏移量为正代表在该法向量方向上偏移，为负代表该法向量反方向偏移。
+ 
+22.关于Mesh的创建：绘制Graphics.DrawMesh(mesh,Vector3.zero,Quaternion.identity, aMaterial, 0);其中的材质和mesh可以赋值。mesh是由三角形组成，主要参数mesh.vertices:vector3[] and mesh.triangles:int[];全部点点索引和三角形索引，三角形索引数组triangles的长度为3的倍数 也就是每三个id索引对应vertices里边的具体点点坐标。准则：三角形有两面，正面可见，背面不可见。三角形的渲染顺序与三角形的正面法线呈左手螺旋定则。
+ 
+	mesh.vertices = [Vector3(0,0,0), Vector3(0,1,0), Vector3(1, 1, 0)];
+	mesh.triangles = [0, 1, 2];
+		Graphics.DrawMesh(mesh, Vector3.zero, Quaternion.identity, aMaterial, 0);
+ 
+23.文件更新系统发现一个重大bug，对于文件存储的位置分为StreamAsset和PersistentPath和ServerPath，最终使用的info属性是用server的 保证正确，本地不需要更新的赋值pageid offset等给Serverpath。出错在于PersistentPath里边文件的RePackage重新保存过程的重写文件属性的时候 只写给了local的 没有写给Serverpath的，采用的是先赋值后重写数据的错误顺序。导致更新page后 数据offset老是出错。所以应该先设置删除 然后RePackage 最后再对比写文件和赋值给Serverpath。另外按照我们现在的更新方式offset是在保存的时候 才算出来的 前边一旦出错 后边数据就全都可能偏移，虽然此bug不是这个造成的，但是我觉得应该再一开始算出每个文件具体的偏移量和id，那么下载和读取的offset肯定是固定的不会变  这样不容易出错点，而且容易定位问题。
+ 
+23.关于旧项目直接导入新项目导致Xcode打包出错的问题Unable to insert branch island. No insertion point available. for architecture armv7：据百度可知基本是由于代码量太大导致的，有方法说修改Stripping Level或把代码移到Plugins目录可行，但我测试都不行，可能是我们代码太多了。最后的解决办法是修改ScriptingBackend为IL2CPP就可以了。
+24.关于load资源时是否需要Instantiate，实例化后肯定会产生2份内存，直接load后东西存在内存池里边，只有实例化了 object才可用，但是对于贴图等引用资源 不需要实例化就直接可用。
+25.关于用Awake初始化的弊端：我们常在Awake初始化一些gameobject的关系，但是在资源load完成瞬间就调用了代码的初始化执行函数，这时候Awake没有执行 就会导致逻辑的初始化可能失败，所以最好的是初始化关系也放在 逻辑初始化前边做个判断。
+26.关于NGUI的UIscrollview的坑，做任务面板的时候，UI上会浮一层特效用的是UItexture。由于UItexture的贴图做的不是原大小，导致UIscrollview计算是根据widget的高和宽计算 导致滑动位置老是不对。所以一定要保证贴图里边是撑满的，就不会有视觉上的大小和widget实际大小的差异。
+ 
+27.关于频繁读取压缩文件创建bundle的方式，建大小2个内存池分别存读取的byte[]和解压后的byte[]，然后再将解压后的byte[] copy出来创建bundle。这样做的原因1.bundle的创建的内存不释放 所以不能直接解压了就创建。2 解压前并不知道解压后的大小没办法具体创建内存，所以需要解压到池了后 再copy。3当然如果提前知道解压后的大小 就可以实时创建不需要copy过程了，所以配置文件最好存下压缩和解压后的length，然而现在只存了一个length。

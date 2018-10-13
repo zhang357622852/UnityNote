@@ -1,0 +1,20 @@
+
+使用AI行为树开发任务系统
+	
+  任务可以拆分出各种细节，每一个可以抽象成行为树的行为节点，这样根据任务的具体细节设计出一棵行为树，各个行为节点中的内嵌脚本可以交于策划填写具体的逻辑。程序部分的主要工作实现角色的基本逻辑单元以及一些黑板功能，逻辑单元之间的组合交织就通过脚本实现。
+
+
+  // 进入条件检测
+  private void detect() {}
+
+  // 进入调用
+  private void enter() {}
+
+  // 每隔dt秒更新
+  private void update(float dt){}
+
+  // 事件监听
+  private void trigger(string type, object obj){}
+
+  // 退出调用
+  private void exit(){}

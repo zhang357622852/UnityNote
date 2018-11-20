@@ -1,0 +1,4 @@
+
+1.随游戏一同发布的AssetBundle（一般位于StreamingAssets文件夹中）
+
+2.完整的AssetBundle可以放在Application.persistentDataPath

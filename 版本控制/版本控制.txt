@@ -1,0 +1,11 @@
+
+1.在Unity里设置:
+	1.1: Edit->project settings->editor里面
+
+		设置Version Control的Model为Visible Meta Files，表示也meta文件来了记录资源版本。
+
+	 	设置Asset Serialization的Mode为Force Text,表示以纯文本形式保存unity文件,Mixed和Force Binary都是二进制,不利于版本管理。
+
+2.需要上传.meta文件，Meta文件中有个重要的东西就是guid,guid是文件唯一标识,文件中的关联关系都是基于guid来的。
+
+3.只提交Assets和ProjectSettings两个目录下的所有东西，忽略其他所有目录和文件

@@ -1,0 +1,57 @@
+
+这个需要在协程中使用:
+
+private IEenmerator Test()
+{
+	WWWForm form = new WWWForm();
+
+	// 自定义发送一些信息
+	form.AddField("language", (int)Application.systemLanguage);
+	form.AddField("client_version", clientVersion);
+	form.AddField("bundle_id", string.Empty);
+	form.AddField("client_name", "WinMiClient");
+
+	WWW www = new WWW("http://3rd.wjdmx.qcplay.com/smjh/smjh_qc.php", form);
+
+	// 等待Web服务器的反应
+	yield return www;
+
+	// 下载成功
+	if (!string.IsNullOrEmpty(www.error))
+	{
+		Debug.Log("==下载成功===");
+	}
+
+	// 服务端发来的是json文件,需要解析
+	bool jsonIsOK = true;
+
+	Config serverCfg = null;
+	
+	try
+	{
+		JsonData data = JsonMapper.ToObject(www.text);	
+
+		if (data.IsObject)
+		{
+			// 构建服务器配置
+			serverCfg = new Config(data);
+
+			
+			// 释放掉www
+			www.Dispose();
+		}
+	}
+	catch (Exception ex)
+	{
+		jsonIsOK = false;
+		LogMgr.Exception(ex);
+	}
+
+	 // 解析json格式失败，重新下载配置文件
+	if (!jsonIsOK)
+	{
+		Debug.Log("配置文件格式错误");
+	}
+}	
+
+	

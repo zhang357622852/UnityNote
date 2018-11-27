@@ -1,0 +1,30 @@
+
+1.NGUI的UIRoot适配
+
+2.在NGUI3.7以前,NGUI是没有提供基于宽度缩放模式的，需要自己实现
+
+
+3.NGUI3.7之后UIRoot的ScaleStyle:
+	Flexible
+		50x50的图片，无论在哪个屏幕分辨率下像素不变，都是50x50，就是出现，低分辨率UI大，高分辨率UI小
+
+	ConStrained,
+		Content Width
+			基于宽度的适配: 
+				当前的屏幕分辨率的高度与这个值比较，进行缩放,例如：Content Width是填720，当前屏幕的高度是820,放大了1.139,整个UIRoot放大1.139
+
+		Content Height
+			基于高度的适配
+
+	ConstrainedOnMobiles(在pc/mac是Flexible模式，android/ios/wp是ConStrained)
+
+4.适配方案:
+	UIRoot:
+		Scaling Style: Constrained
+		Content width: 1280 开启 
+		Content width: 720  开启
+	同时开启宽度和高度适配的话，当屏幕的宽高比大于1280/720就基于高度，小于基于宽度。
+
+
+
+

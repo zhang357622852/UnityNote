@@ -1,0 +1,4 @@
+
+1.存在于:/Unity/Editor/Data/Resources/ScriptTemplates下
+
+2.也可以自定义脚本模板，放在此目录下，就是文件的命名规则要符合这里的命名规则

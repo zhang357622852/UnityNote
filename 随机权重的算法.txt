@@ -1,0 +1,28 @@
+
+
+	// 第一个物品的权重为100， 第二个200，.....
+	List<int> weightList = [100, 200, 350, 400];
+
+	int totalWeight = 100 + 200 + 350 + 400;
+
+	int randowNum = (0, totalWeight];
+	
+	for(int i=0; i<weightList.Count; i++)
+	{
+		if (weightList[i] <= 0)
+			continue;
+
+		if (randowNum >= weightList[i])
+		{
+			randowNum -= weightList[i];
+			continue;
+		}
+
+		return i;
+	}
+
+
+
+	// 这里主要是从权重数组里得到随机到下标index。
+	// 这种算法，权重就可以随意写，而不要写成总的权重是100的写法
+	// 带入一个权重数组就能得到下标index

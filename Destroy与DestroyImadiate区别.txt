@@ -1,0 +1,12 @@
+
+1.Destroy
+
+	gameObject当前帧没有被立即删除，相关的属性(transform)还可以用,它的Parent物体获取的childCount是包含此gameObject,可以使用Parent.DetachChildren()从父物体childCount中剥离子对象，不至于计算childCount不准确,逻辑错误
+	
+
+2.DestroyImadiate
+	
+	在当前帧就立即删除，相关的属性引用都不可以用。
+
+
+3.有人测试到:Destroy和DestroyImmediate的时间占用，发现后者几乎是前者的10倍。

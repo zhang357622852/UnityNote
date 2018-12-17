@@ -1,0 +1,30 @@
+
+1.yield return new WaitForSeconds(2f);
+
+	等待n秒后执行后面的语句
+
+2.yield return null/数字
+
+	等待一帧
+	在Yield return 1 后的代码运行时，顺序是: Updata->yield return 后的代码->LateUpdate
+
+3.yield return www;
+
+	等待www下载完成
+
+	WWW www = new WWW("网址");
+	
+	// 这里等待www.isDone
+	yield return www;
+
+	// 下载完成了执行后面的代码
+	Debug.Log("完成啦");
+
+
+4.yield return StartCoroutine("协程方法名")
+
+	等待执行完这个子协程里的所有
+
+5.yield break;
+
+	退出协程,不继续执行了

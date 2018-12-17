@@ -1,0 +1,16 @@
+
+1.在Unity线程中无法初始化Unity有的类型与API
+
+2.get_item can only be called from the main thread
+	
+	说明get_item是Unity里的，解决方法就是在主线程中初始化相应的对象，再在子线程中去使用
+
+3.在进入游戏的时候初始化方案：
+	
+	3.1 方案一： 初始化模块在主线程（使用协程分帧加载） + 进度条和动画在子线程中
+
+		动画和进度条就不会因为主线程的卡顿而影响动画流畅性播放,
+
+	3.2 方案二： 子线程初始化相应的模块(Monster.mgr) + 进度条和动画可以在线程也可以在主线程
+
+		需要注意的是: 要在主线程提前初始与Unity关系的对象类型,要不然会报错：can only be called from the main thread

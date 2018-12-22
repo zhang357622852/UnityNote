@@ -1,0 +1,44 @@
+
+1.新建工程
+
+	File->new->Solution->.Net->Library->Next->Create a project within...选上->create
+
+  1.1 引用相关库： 例如UnityEngine.dll
+
+  	选中左边工程视图中的Reference->右键选中Edit Reference->.Net Assembly->Browse->在Unity的安装目录下(Editor/Data/Managed/UnityEngine.dll)->ok
+
+  1.2 给dll生成对应的函数注释xml文件（只有这个文件在，才可以在程序里生成对应函数注释）
+
+	首先需要给需要注释的函数写上正确格式的注释:
+
+			/// <summary>
+			/// Log the specified message.
+			/// </summary>
+			/// <param name="message">Message.</param>
+			/// <typeparam name="T">The 1st type parameter.</typeparam>
+			public static void Log<T> (T message)
+			{
+				if (!mEnableDebug)
+					return;
+
+				Debug.Log (message);
+			}	
+
+	右键选中工程->options->Build->compiler->打钩Generate xml documentation->ok
+
+
+  1.3 选择.Net3.5,因为Unity目前只支持.Net Framework的3.5
+
+	右键选中工程->options->Build->General->Target framework->Mono/.Net 3.5 -> ok
+
+
+
+2. 最后在工程目录下bin/debug/ 可以找到对应的dll文件和注释文件xml
+
+   把这两个文件导入到Unity工程中就可以使用了
+
+   主要注意的是这两个文件需要在同一目录下？
+
+
+3. 可以在UnityEngine.dll的路径下，看到UnityEngine.xml
+

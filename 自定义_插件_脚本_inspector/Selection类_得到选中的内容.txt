@@ -1,7 +1,22 @@
 
 1.Selection类提供了这个泛型方法，可以得到在Project窗口选中的内容,支持批量选中和单个选中
+
 	Transform[] list = Selection.GetFiltered<Transform>(SelectionMode.TopLevel);
 
 2.参数:SelectionModel
+
 	TopLevel: 顶级父节点，不去遍历子节点
-	还有其他。。可以去实验下.
+	
+	Deep：返回选中的对象并且也返回其子对象
+
+	ExcludePrefab：返回的选中的对象忽略预制体
+
+	OnlyUserModifiable：返回的选中对象必须是没有不能被修改的；
+
+	Assets  只返回Asset文件夹的资源
+	
+	DeepAssets  如果选择里包含文件夹，则也包括文件夹里的文件和子文件夹。
+
+	Unfiltered  返回整个选择
+
+	Editable  排除任何不被修改的对象。

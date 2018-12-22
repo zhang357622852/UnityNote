@@ -1,0 +1,34 @@
+
+1.Bom: byte order mark 字节序标记
+
+	在UCS 编码中有一个叫做”ZERO WIDTH NO-BREAK SPACE“的字符，它的编码是FEFF。而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中
+
+	UCS规范建议我们在传输字节流前，先传输 字符”ZERO WIDTH NO-BREAK SPACE“。
+
+	如果接收者收到FEFF，就表明这个字节流是大字节序的；如果收到FFFE，就表明这个字节流是小字节序的。因此字符”ZERO WIDTH NO-BREAK SPACE“又被称作BOM。
+
+2.utf-8
+
+	UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符”ZERO WIDTH NO-BREAK SPACE“的UTF-8编码是EF BB BF。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。
+
+
+3. 有签名就是带有Bom，无签名就是没有带有Bom
+
+	当有签名时被解析器（浏览器）时就可以根据签名知道使用utf-8编码来解析
+
+	无签名，解析器会根据内容的编码来进行判别，
+
+	有签名更容易被解析器以正确的编码方式进行解析 
+	
+4.总结
+
+	通常把文件保存为不带BOM的UTF-8文件
+
+	要想看到文件的Bom,需要16进制打开文件，在文件的开头就可以看到EF BB BF
+
+
+
+
+
+
+	

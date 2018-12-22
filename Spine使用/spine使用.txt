@@ -1,0 +1,18 @@
+
+1.从spine中导出三个文件：.png/.json/.atlas
+
+2.需要修改.atlas文件的后缀名为：.atlas.txt 因为Unity无法识别.atlas文件
+
+3.Unity会生成3个文件: 
+	
+	.mat材质球(装载.png图片)
+	
+	 _Atlas.asset图集(装载材质球和图集信息.atlas.txt)
+
+	skeletonData.asset（装载_Atlas.asset图集和.json骨骼动画信息）
+
+
+4.在skeletonData.asset文件面板可以生成动画控制器Animator Controller里面包含了动画片段 
+  可以Bake烘焙出模型的预制体(项目里没有用这个，也就没有烘焙出这个预制体了)
+
+5.模型预制体，主要是用Skeleton Animator去控制动画

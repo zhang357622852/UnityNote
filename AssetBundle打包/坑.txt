@@ -1,0 +1,37 @@
+
+
+1.在使用AssetBundle加载音频资源时，有时会有类似以下错误：Error: Cannot create FMOD::Sound instance for resource archive
+	
+	原因:
+		这其实是音效从AssetBundle中主动加载过程中，还没完全加载成功就卸载了AssetBundle资源，就算是AssetBundle.Unload(false)也不行，因为AssetBundle资源卸载了，正在主动加载中的音效资源肯定会中断加载，从而导致无法播放音效并报错提示没有找到音频文件！
+
+	解决方案一:
+		音频设置的界面中，有一个Preload Audio Data的选项，没错，只要将这个选项打勾，然后重新打包AssetBundle资源，就会正常加载音效了。这可能是在加载音效的AssetBundle时，已经把需要的音效文件进行了预加载，从而减少了主动加载的时间。
+
+	方案二:
+
+		如果音频文件不设置成预加载的模式，可以通过脚本控制完全加载，AudioClip类中有两个方法：LoadAudioData()加载音效和UnloadAudioData()卸载音效，这两个方法的返回值是bool类型，true表示加载或卸载成功，false表示失败。因此当我们从AssetBundle中加载完音效时，可以通过LoadAudioData()方法将AudioClip完全加载；当播放完音效时，可以使用UnloadAudioData()方法将音效卸载掉
+
+		//音效的加载
+		AssetBundle bundle = AssetBundle.LoadFromFile(path)；//加载AssetBundle资源
+		AudioClip clip = bundle .GetAsset<AudioClip>(); //加载音效文件
+		if(clip.LoadAudioData())
+  			Debug.Log("音频已成功加载");
+		else{
+  			DebugLogError("音效加载失败");
+  			return;
+		}
+		//将clip赋给AudioSource使用播放...
+ 
+		//音效的卸载
+		//当clip音效被AudioSource播放完成后
+		if(clip.UnloadAudioData())
+  			Debug.Log("音效卸载成功");
+		else
+  			Debug.LogError("音效卸载失败");
+
+
+	说明：
+		当音效文件较小时，可能会很快从AssetBundle中加载完成，而无需使用LoadAudioData()，但是尽量在写音效架构时统一处理；也可以通过AudioClip.loadState属性判断当前音效的加载状态，这是一个名为AudioDataLoadState的枚举类型，它有以下四种状态：Unloaded(未加载)、Loading(加载中)、Loaded(加载完)、Failed(失败)。
+
+

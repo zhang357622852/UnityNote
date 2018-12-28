@@ -5,7 +5,7 @@
 1.平台定义:
 	UNITY_EDITOR 编辑器调用。
 
-	UNITY_IPHONE iPhone平台。（弃用这个了,使用UNITY_IOS）
+	UNITY_IPHONE iPhone平台。（不建议使用(兼容还可以使用), 建议使用UNITY_IOS）
 
 	UNITY_IOS
 

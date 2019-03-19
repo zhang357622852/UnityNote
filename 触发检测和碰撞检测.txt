@@ -1,0 +1,37 @@
+
+1.碰撞检测:  
+
+	1.1 函数:
+
+		void OnCollisionEnter(Collision col); // 进入碰撞
+		void OnCollisionStay(Collision col); // 碰撞中
+		void OnCollisionExit(Collision col); // 退出碰撞
+	
+	1.2 碰撞条件:
+
+		主动方必须有Rigidbody，发生碰撞的两个游戏对象必须有Collider，被动方对于RigidBody可又不可无，参数是表示被动方 
+
+
+	1.3 特点:
+
+		无法穿透,
+		如果两者都有Rigidbody，可以推动物体
+		被动方没有Rigidbodyi,不可以推动物体
+
+
+2.触发检测:
+
+	2.1 函数:
+
+		void OnTriggerEnter(Collider other); // 开始触发
+		void OnTriggerStay(Collider other); // 触发中
+		void OnTriggerExit(Collider other); // 退出触发
+
+	2.2 条件:
+		
+		发生碰撞的物体两者其中之一有Rigidbody即可，发生碰撞的两个游戏对象必须有Collider，其中一方勾选IsTrigger即可，参数是表示被动方 
+
+	2.3 特点:
+
+		可以穿透
+		
